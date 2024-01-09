@@ -3,11 +3,12 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 import { IContact } from '../../models/IContact';
 import { NgIf } from '@angular/common';
 import { ContactService } from '../../services/contact.service';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-view-contact',
   standalone: true,
-  imports: [RouterModule, NgIf],
+  imports: [RouterModule, NgIf, SpinnerComponent],
   templateUrl: './view-contact.component.html',
   styleUrl: './view-contact.component.scss'
 })
