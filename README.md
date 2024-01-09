@@ -1,27 +1,42 @@
-# ContactManager
+# Angular Frontend for ASP.NET Web API
+This Angular frontend interacts with the ASP.NET Web API providing a simple CRUD (Create, Read, Update, Delete) interface for managing contacts. The Angular application consumes the backend API, allowing users to list, create, update, and delete contacts.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.9.
+## Prerequisites
 
-## Development server
+Before running the Angular application, make sure you have the following prerequisites installed on your machine:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- [Node.js](https://nodejs.org/) (LTS version recommended)
+- [npm](https://www.npmjs.com/) (Node Package Manager)
+- [Angular CLI](https://angular.io/cli) (Command Line Interface)
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Clone the repository:
 
-## Build
+    ```bash
+    git clone https://github.com/steveebenezer/contact-manager-client.git
+    ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2. Navigate to the project directory:
 
-## Running unit tests
+    ```bash
+    cd contact-manager-client
+    ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. Install the dependencies:
 
-## Running end-to-end tests
+    ```bash
+    npm install
+    ```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Usage
 
-## Further help
+### Development Server
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Run the Angular application in development mode using the Angular CLI:
+
+```bash
+ng serve
+```
+
+Open your browser and navigate to http://localhost:4200. The application will automatically reload if you change any of the source files.
