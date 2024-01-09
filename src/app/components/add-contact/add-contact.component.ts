@@ -4,6 +4,7 @@ import { IContact } from '../../models/IContact';
 import { ContactService } from '../../services/contact.service';
 import { NgModel, FormsModule } from '@angular/forms';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { NgIf } from '@angular/common';
 
 NgModule({
   declarations: [],
@@ -12,7 +13,7 @@ NgModule({
 @Component({
   selector: 'app-add-contact',
   standalone: true,
-  imports: [RouterModule, FormsModule, SpinnerComponent],
+  imports: [RouterModule, FormsModule, SpinnerComponent, NgIf],
   templateUrl: './add-contact.component.html',
   styleUrl: './add-contact.component.scss'
 })
