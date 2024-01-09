@@ -8,7 +8,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 })
 export class ContactService {
 
-  private serverUrl: string = "http://localhost:5204";
+  private serverUrl: string = "http://localhost:5204/api";
 
   constructor(private httpClient: HttpClient) { }
 
