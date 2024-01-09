@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { IContact } from '../../models/IContact';
 import { ContactService } from '../../services/contact.service';
 import { NgForOf, NgIf } from '@angular/common';
@@ -17,9 +17,13 @@ export class ContactManagerComponent {
   public contacts: IContact[] = [];
   public errorMessage: string | null = null;
 
-  constructor(private contactService: ContactService) {}
+  constructor(private contactService: ContactService, private router: Router) {}
 
   ngOnInit(): void {
+    this.getAllContactsFromServer();
+  }
+
+  getAllContactsFromServer() {
     this.loading = true;
     this.contactService.getAllContacts()
     .subscribe((data) => {
@@ -31,5 +35,14 @@ export class ContactManagerComponent {
     });
   }
 
-
+  clickDeleteContact(contactId: string | undefined) {
+    if (contactId) {
+      this.contactService.deleteContact(contactId).subscribe((data) => {
+        this.router.navigate(['/']).then();
+        this.getAllContactsFromServer();
+      }, (error) => {
+        this.errorMessage = error;
+      })
+    }
+  }
 }
