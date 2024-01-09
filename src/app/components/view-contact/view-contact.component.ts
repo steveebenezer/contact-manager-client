@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-view-contact',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './view-contact.component.html',
   styleUrl: './view-contact.component.scss'
 })
