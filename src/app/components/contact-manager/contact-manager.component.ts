@@ -3,11 +3,12 @@ import { RouterModule } from '@angular/router';
 import { IContact } from '../../models/IContact';
 import { ContactService } from '../../services/contact.service';
 import { NgForOf, NgIf } from '@angular/common';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-contact-manager',
   standalone: true,
-  imports: [RouterModule, NgIf, NgForOf],
+  imports: [RouterModule, NgIf, NgForOf, SpinnerComponent],
   templateUrl: './contact-manager.component.html',
   styleUrl: './contact-manager.component.scss'
 })
