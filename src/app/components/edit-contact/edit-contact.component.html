@@ -5,22 +5,31 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="!loading && errorMessage">
+  <p>{{ errorMessage }}</p>
+</div>
+
 <div class="container">
   <div class="row">
     <div class="col-sm-4">
-      <form>
+      <form (submit)="submitUpdate()">
         <div class="mb-2">
-          <input type="text" class="form-control" placeholder="Name">
+          <input required="true" [(ngModel)]="contact.name" name="name" type="text" class="form-control" placeholder="Name" [value]="contact.name">
         </div>
         <div class="mb-2">
-          <input type="email" class="form-control" placeholder="Email">
+          <input required="true" [(ngModel)]="contact.email" type="email" name="email" class="form-control" placeholder="Email" [value]="contact.email">
         </div>
         <div class="mb-2">
-          <input type="tel" class="form-control" placeholder="Phone">
+          <input required="true" [(ngModel)]="contact.phone" type="tel" name="phone" class="form-control" placeholder="Phone" [value]="contact.phone">
         </div>
         <div class="mb-2">
           <button class="btn btn-success me-2" type="submit">
-            Update
+            Create
           </button>
           <a routerLink="/" class="btn btn-danger">
             Cancel
