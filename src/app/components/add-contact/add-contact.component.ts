@@ -1,4 +1,4 @@
-import { Component, NgModule, Input, Output } from '@angular/core';
+import { Component, NgModule, Input, Output, EventEmitter } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { IContact } from '../../models/IContact';
 import { ContactService } from '../../services/contact.service';
@@ -18,11 +18,14 @@ NgModule({
   styleUrl: './add-contact.component.scss'
 })
 export class AddContactComponent {
-  public loading: boolean = false;
-  public contactId: string | null = null;
+  @Input() public loading: boolean = false;
+  @Input() public contactId: string | null = null;
+  @Input() public contact: IContact = {} as IContact;
+  @Input() public errorMessage: string | null = null;
+
+  @Output() public createContact: EventEmitter<IContact> = new EventEmitter<IContact>();
+
   public contactForm: FormGroup;
-  public contact: IContact = {} as IContact;
-  public errorMessage: string | null = null;
 
   constructor(private contactService: ContactService, private router: Router, private formBuilder: FormBuilder) {
     this.contactForm = this.formBuilder.group({
@@ -43,6 +46,7 @@ export class AddContactComponent {
       const newContact: IContact = this.contactForm.value;
       this.contactService.createContact(newContact).subscribe(
         (data) => {
+          this.createContact.emit(newContact);
           this.router.navigate(['/']).then(() => {
             this.loading = false;
           });
