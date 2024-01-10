@@ -6,6 +6,7 @@ import { ContactService } from '../../services/contact.service';
 import { NgModel, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { NgIf } from '@angular/common';
+import { ToasterService } from '../../toaster.service';
 
 NgModule({
   declarations: [],
@@ -27,7 +28,7 @@ export class AddContactComponent {
 
   public contactForm: FormGroup;
 
-  constructor(public activeModal: NgbActiveModal, private contactService: ContactService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(public activeModal: NgbActiveModal, private contactService: ContactService, private formBuilder: FormBuilder, private toaster: ToasterService) {
     this.contactForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -46,11 +47,13 @@ export class AddContactComponent {
         (data) => {
           this.createContact.emit(newContact);
           this.loading = false;
+          this.toaster.success("Contact added succesfully");
           this.activeModal.dismiss('Cross click');
         },
         (error) => {
           this.errorMessage = error;
           this.loading = false;
+          this.toaster.error("Contact added failed");
         }
       );
     }

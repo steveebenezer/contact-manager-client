@@ -7,6 +7,7 @@ import { NgForOf, NgIf } from '@angular/common';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { AddContactComponent } from '../add-contact/add-contact.component';
 import { EditContactComponent } from '../edit-contact/edit-contact.component';
+import { ToasterService } from '../../toaster.service';
 
 @Component({
   selector: 'app-contact-manager',
@@ -26,7 +27,7 @@ export class ContactManagerComponent {
     windowClass: 'md-class',
   };
 
-  constructor(private contactService: ContactService, private modalService: NgbModal) {}
+  constructor(private contactService: ContactService, private modalService: NgbModal, private toaster: ToasterService) {}
 
   ngOnInit(): void {
     this.getAllContactsFromServer();
@@ -48,8 +49,10 @@ export class ContactManagerComponent {
     if (contactId) {
       this.contactService.deleteContact(contactId).subscribe((data) => {
         this.getAllContactsFromServer();
+        this.toaster.success("Contact deleted succesfully");
       }, (error) => {
         this.errorMessage = error;
+        this.toaster.success("Contact delete failed");
       })
     }
   }

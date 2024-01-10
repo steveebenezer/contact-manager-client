@@ -1,0 +1,53 @@
+.toaster-wrapper {
+    overflow: hidden;
+    padding: 10px 25px 10px 40px;
+    width: 400px;
+    border-radius: 0.222rem;
+    pointer-events: auto;
+    box-shadow: 0 4px 12px #999;
+    color: #FFFFFF;
+}
+
+.toaster-wrapper:hover {
+    box-shadow: 0 6px 12px #000;
+    cursor: pointer;
+}
+
+.toaster-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+}
+
+.toaster-close-button {
+    position: relative;
+    right: -0.3em;
+    top: -0.3em;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-shadow: 0 1px 0 #ffffff;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+}
+
+.toaster-title {
+    font-weight: bold;
+}
+
+.toaster-success {
+    background-color: #51A351;
+}
+
+.toaster-warning {
+    background-color: #f89406;
+}
+
+.toaster-error {
+    background-color: #BD362F;
+}

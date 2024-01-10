@@ -6,6 +6,7 @@ import { ContactService } from '../../services/contact.service';
 import { NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ToasterService } from '../../toaster.service';
 
 @Component({
   selector: 'app-edit-contact',
@@ -24,7 +25,7 @@ export class EditContactComponent {
 
   public contactForm: FormGroup;
 
-  constructor(public activeModal: NgbActiveModal, private contactService: ContactService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(public activeModal: NgbActiveModal, private contactService: ContactService, private router: Router, private formBuilder: FormBuilder, private toaster: ToasterService) {
     this.contactForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -53,10 +54,12 @@ export class EditContactComponent {
           this.loading = false;
           this.updateContact.emit(updatedContact);
           this.activeModal.dismiss('Cross click');
+          this.toaster.success("Contact updated succesfully");
         },
         (error) => {
           this.errorMessage = error;
           this.loading = false;
+          this.toaster.error("Contact update failed");
         }
       );
     }
