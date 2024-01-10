@@ -2,7 +2,7 @@ import { Component, NgModule, Input, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { IContact } from '../../models/IContact';
 import { ContactService } from '../../services/contact.service';
-import { NgModel, FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgModel, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { NgIf } from '@angular/common';
 
