@@ -4,22 +4,31 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 import { IContact } from '../../models/IContact';
 import { ContactService } from '../../services/contact.service';
 import { NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-contact',
   standalone: true,
-  imports: [RouterModule, SpinnerComponent, NgIf, FormsModule],
+  imports: [RouterModule, SpinnerComponent, NgIf, FormsModule, ReactiveFormsModule],
   templateUrl: './edit-contact.component.html',
   styleUrl: './edit-contact.component.scss'
 })
 export class EditContactComponent {
   public loading: boolean = false;
   public contactId: string | null = null;
+  public contactForm: FormGroup;
   public contact: IContact = {} as IContact;
   public errorMessage: string | null = null;
 
-  constructor(private activatedRoute: ActivatedRoute, private contactService: ContactService, private router: Router) {}
+  constructor(private activatedRoute: ActivatedRoute, private contactService: ContactService, private router: Router, private formBuilder: FormBuilder) {
+    this.contactForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [ Validators.required,
+        Validators.pattern("^[0-9]*$"),
+        Validators.minLength(10), Validators.maxLength(10)]],
+    });
+  }
 
   ngOnInit(): void {
     this.loading = true;
@@ -29,22 +38,30 @@ export class EditContactComponent {
     if (this.contactId) {
       this.contactService.getContact(this.contactId).subscribe((data) => {
         this.contact = data;
+        this.contactForm.patchValue(data);
         this.loading = false;
       }, (error) => {
         this.errorMessage = error;
         this.loading = false;
-      })
+      });
     }
   }
 
   submitUpdate() {
-    if (this.contactId) {
-        this.contactService.updateContact(this.contact, this.contactId).subscribe((data) => {
-        this.router.navigate(['/']).then();
-      }, (error) => {
-        this.errorMessage = error;
-        this.router.navigate([`contacts/edit/${this.contactId}`]).then();
-      })
+    if (this.contactId && this.contactForm.valid) {
+      this.loading = true;
+      const updatedContact: IContact = this.contactForm.value;
+      this.contactService.updateContact(updatedContact, this.contactId).subscribe(
+        (data) => {
+          this.router.navigate(['/']).then(() => {
+            this.loading = false;
+          });
+        },
+        (error) => {
+          this.errorMessage = error;
+          this.loading = false;
+        }
+      );
     }
   }
 }
