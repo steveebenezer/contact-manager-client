@@ -13,7 +13,7 @@ NgModule({
 @Component({
   selector: 'app-add-contact',
   standalone: true,
-  imports: [RouterModule, FormsModule, SpinnerComponent, NgIf, ReactiveFormsModule],
+  imports: [RouterModule, SpinnerComponent, NgIf, ReactiveFormsModule],
   templateUrl: './add-contact.component.html',
   styleUrl: './add-contact.component.scss'
 })
