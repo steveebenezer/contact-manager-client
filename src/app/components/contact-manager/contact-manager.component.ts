@@ -1,9 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { IContact } from '../../models/IContact';
 import { ContactService } from '../../services/contact.service';
 import { NgForOf, NgIf } from '@angular/common';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { AddContactComponent } from '../add-contact/add-contact.component';
+import { EditContactComponent } from '../edit-contact/edit-contact.component';
 
 @Component({
   selector: 'app-contact-manager',
@@ -13,13 +16,17 @@ import { SpinnerComponent } from '../spinner/spinner.component';
   styleUrl: './contact-manager.component.scss'
 })
 export class ContactManagerComponent {
-  @Input() public loading: boolean = false;
-  @Input() public contacts: IContact[] = [];
-  @Input() public errorMessage: string | null = null;
+  public loading: boolean = false;
+  public contacts: IContact[] = [];
+  public errorMessage: string | null = null;
+  ngbModalOptions: NgbModalOptions = {
+    backdrop: 'static',
+    keyboard: false,
+    centered: true,
+    windowClass: 'md-class',
+  };
 
-  @Output() public deleteContact: EventEmitter<string> = new EventEmitter<string>();
-
-  constructor(private contactService: ContactService, private router: Router) {}
+  constructor(private contactService: ContactService, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.getAllContactsFromServer();
@@ -40,12 +47,27 @@ export class ContactManagerComponent {
   clickDeleteContact(contactId: string | undefined) {
     if (contactId) {
       this.contactService.deleteContact(contactId).subscribe((data) => {
-        this.deleteContact.emit("DeletedContact");
-        this.router.navigate(['/']).then();
         this.getAllContactsFromServer();
       }, (error) => {
         this.errorMessage = error;
       })
     }
+  }
+
+  addContactPopup() {
+    this.ngbModalOptions.windowClass = 'app-create-user-popup';
+    const modalRef = this.modalService.open(AddContactComponent, this.ngbModalOptions);
+    modalRef.componentInstance.createContact.subscribe((resp: any) => {
+      this.getAllContactsFromServer();
+    });
+  }
+
+  editContactPopup(contact: IContact) {
+    this.ngbModalOptions.windowClass = 'app-create-user-popup';
+    const modalRef = this.modalService.open(EditContactComponent, this.ngbModalOptions);
+    modalRef.componentInstance.contact = contact;
+    modalRef.componentInstance.updateContact.subscribe((resp: any) => {
+      this.getAllContactsFromServer();
+    });
   }
 }

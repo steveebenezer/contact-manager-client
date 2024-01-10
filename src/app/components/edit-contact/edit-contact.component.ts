@@ -5,6 +5,7 @@ import { IContact } from '../../models/IContact';
 import { ContactService } from '../../services/contact.service';
 import { NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit-contact',
@@ -14,52 +15,44 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
   styleUrl: './edit-contact.component.scss'
 })
 export class EditContactComponent {
-  @Input() public loading: boolean = false;
-  @Input() public contactId: string | null = null;
   @Input() public contact: IContact = {} as IContact;
-  @Input() public errorMessage: string | null = null;
+  public loading: boolean = false;
+  public contactId: string | null = null;
+  public errorMessage: string | null = null;
 
   @Output() updateContact: EventEmitter<IContact> = new EventEmitter<IContact>();
 
   public contactForm: FormGroup;
 
-  constructor(private activatedRoute: ActivatedRoute, private contactService: ContactService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(public activeModal: NgbActiveModal, private contactService: ContactService, private router: Router, private formBuilder: FormBuilder) {
     this.contactForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [ Validators.required,
-        Validators.pattern("^[0-9]*$"),
-        Validators.minLength(10), Validators.maxLength(10)]],
     });
   }
+  
+  get id() { return this.contactForm.get("id"); }
+  get firstName() { return this.contactForm.get("firstName"); }
+  get lastName() { return this.contactForm.get("lastName"); }
+  get email() { return this.contactForm.get("email"); }
 
   ngOnInit(): void {
-    this.loading = true;
-    this.activatedRoute.paramMap.subscribe((param) => {
-      this.contactId = param.get('contactId');
-    });
-    if (this.contactId) {
-      this.contactService.getContact(this.contactId).subscribe((data) => {
-        this.contact = data;
-        this.contactForm.patchValue(data);
-        this.loading = false;
-      }, (error) => {
-        this.errorMessage = error;
-        this.loading = false;
-      });
-    }
+    this.id?.setValue(this.contact.id);
+    this.firstName?.setValue(this.contact.firstName);
+    this.lastName?.setValue(this.contact.lastName);
+    this.email?.setValue(this.contact.email);
   }
 
   submitUpdate() {
     if (this.contactId && this.contactForm.valid) {
-      this.loading = true;
+      // this.loading = true;
       const updatedContact: IContact = this.contactForm.value;
       this.contactService.updateContact(updatedContact, this.contactId).subscribe(
         (data) => {
+          this.loading = false;
           this.updateContact.emit(updatedContact);
-          this.router.navigate(['/']).then(() => {
-            this.loading = false;
-          });
+          this.activeModal.dismiss('Cross click');
         },
         (error) => {
           this.errorMessage = error;
