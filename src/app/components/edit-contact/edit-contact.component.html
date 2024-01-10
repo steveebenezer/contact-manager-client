@@ -1,41 +1,36 @@
-<div class="container mt-3">
-  <div class="row">
-    <div class="col">
-      <h3 class="h2 fw-bold">Edit Contact</h3>
-    </div>
+<div class="modal-header">
+  <h4 class="modal-title">Edit Contact</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <div *ngIf="loading">
+    <app-spinner></app-spinner>
   </div>
-</div>
 
-<div *ngIf="loading">
-  <app-spinner></app-spinner>
-</div>
+  <div *ngIf="!loading && errorMessage">
+    <p>{{ errorMessage }}</p>
+  </div>
 
-<div *ngIf="!loading && errorMessage">
-  <p>{{ errorMessage }}</p>
-</div>
-
-<div class="container">
-  <div class="row">
-    <div class="col-sm-4">
-      <form (submit)="submitUpdate()">
-        <div class="mb-2">
-          <input required="true" [(ngModel)]="contact.name" name="name" type="text" class="form-control" placeholder="Name" [value]="contact.name">
-        </div>
-        <div class="mb-2">
-          <input required="true" [(ngModel)]="contact.email" type="email" name="email" class="form-control" placeholder="Email" [value]="contact.email">
-        </div>
-        <div class="mb-2">
-          <input required="true" [(ngModel)]="contact.phone" type="tel" name="phone" class="form-control" placeholder="Phone" [value]="contact.phone">
-        </div>
-        <div class="mb-2">
-          <button class="btn btn-success me-2" type="submit">
-            Update
-          </button>
-          <a routerLink="/" class="btn btn-danger">
-            Cancel
-          </a>
-        </div>
-      </form>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <form *ngIf="contactForm" [formGroup]="contactForm" (submit)="submitUpdate()">
+          <div class="mb-2">
+            <input required="true" formControlName="firstName" name="firstName" type="text" class="form-control" placeholder="First Name" [value]="contact.firstName">
+          </div>
+          <div class="mb-2">
+            <input required="true" formControlName="lastName" name="lastName" type="text" class="form-control" placeholder="Last Name" [value]="contact.lastName">
+          </div>
+          <div class="mb-2">
+            <input required="true" formControlName="email" type="email" name="email" class="form-control" placeholder="Email" [value]="contact.email">
+          </div>
+          <div class="mb-2">
+            <button class="btn btn-success me-2 px-4" type="submit" [disabled]="!contactForm.valid">
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

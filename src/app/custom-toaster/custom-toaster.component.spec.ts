@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewContactComponent } from './view-contact.component';
+import { CustomToasterComponent } from './custom-toaster.component';
 
-describe('ViewContactComponent', () => {
-  let component: ViewContactComponent;
-  let fixture: ComponentFixture<ViewContactComponent>;
+describe('CustomToasterComponent', () => {
+  let component: CustomToasterComponent;
+  let fixture: ComponentFixture<CustomToasterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewContactComponent]
+      imports: [CustomToasterComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ViewContactComponent);
+    fixture = TestBed.createComponent(CustomToasterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
